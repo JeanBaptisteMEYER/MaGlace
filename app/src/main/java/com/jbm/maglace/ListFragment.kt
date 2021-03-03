@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.jbm.maglace.viewModels.ListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ListFragment : Fragment() {
 
     private lateinit var listViewModel: ListViewModel
@@ -22,10 +24,9 @@ class ListFragment : Fragment() {
         listViewModel =
                 ViewModelProvider(this).get(ListViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_list, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
 
         listViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+            //TODO
         })
         return root
     }
