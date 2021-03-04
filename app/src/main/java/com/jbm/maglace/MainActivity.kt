@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == Constants().LOCATION_REQUEST_PERMISSIONS_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                //TODO
+                mainViewModel.getLastLocation()
             else
                 Toast.makeText(this, "Please, set location manually in settings", Toast.LENGTH_LONG)
                     .show()

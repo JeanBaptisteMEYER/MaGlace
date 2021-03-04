@@ -1,10 +1,8 @@
 package com.jbm.maglace.model
 
-import android.graphics.drawable.Drawable
 import com.google.gson.annotations.SerializedName
 import com.jbm.maglace.R
 import com.jbm.maglace.utils.Constants
-import kotlinx.coroutines.flow.flowOf
 
 class Rink {
     @SerializedName ("id") var id = 0
@@ -36,10 +34,40 @@ class Rink {
 
     fun getTypeMarkerDrawable(): Int {
         when (type) {
-            Constants().TYPE_PSE -> return R.drawable.ic_hockey_map_marker
-            else -> return R.drawable.ic_skate_map_marker
+            Constants().TYPE_PSE -> return getTypeMarkerPse()
+            Constants().TYPE_PPL -> return getTypeMarkerPpl()
+            else -> return getTypeMarkerPp()
         }
     }
+
+    fun getTypeMarkerPse(): Int {
+        when (condition) {
+            Constants().CONDITION_EXCELLENTE -> return R.drawable.ic_hockey_marker_green
+            Constants().CONDITION_BONNE -> return R.drawable.ic_hockey_marker_orange
+            Constants().CONDITION_MAIVAISE -> return R.drawable.ic_hockey_marker_red
+            else -> return R.drawable.ic_hockey_marker
+        }
+    }
+
+    fun getTypeMarkerPpl(): Int {
+        when (condition) {
+            Constants().CONDITION_EXCELLENTE -> return R.drawable.ic_skate_marker_green
+            Constants().CONDITION_BONNE -> return R.drawable.ic_skate_marker_orange
+            Constants().CONDITION_MAIVAISE -> return R.drawable.ic_skate_marker_red
+            else -> return R.drawable.ic_skate_marker
+        }
+    }
+
+    fun getTypeMarkerPp(): Int {
+        when (condition) {
+            Constants().CONDITION_EXCELLENTE -> return R.drawable.ic_park_marker_green
+            Constants().CONDITION_BONNE -> return R.drawable.ic_park_marker_orange
+            Constants().CONDITION_MAIVAISE -> return R.drawable.ic_park_marker_red
+            else -> return R.drawable.ic_park_marker
+        }
+    }
+
+
 
     @Override
     override fun toString(): String {
