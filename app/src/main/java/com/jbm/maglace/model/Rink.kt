@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import com.google.gson.annotations.SerializedName
 import com.jbm.maglace.R
 import com.jbm.maglace.utils.Constants
+import kotlinx.coroutines.flow.flowOf
 
 class Rink {
     @SerializedName ("id") var id = 0
@@ -22,6 +23,7 @@ class Rink {
     @SerializedName ("lat") var lat =  0.0
     @SerializedName ("lng") var lng =  0.0
     @SerializedName ("slug") var slug =  ""
+    var distFromUser: Float = 0.toFloat() // in Km
 
     fun getConditionDrawable(): Int {
         when (condition) {

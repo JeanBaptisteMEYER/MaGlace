@@ -5,20 +5,25 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.location.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jbm.maglace.utils.Constants
+import com.jbm.maglace.viewModels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     val TAG: String =  "tag.jbm." + this::class.java.simpleName
+
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,12 +33,19 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         navView.setupWithNavController(navController)
 
+        // prepare to ask for all the needed permissions
         var permissionsArray = arrayListOf<String>()
         permissionsArray.add(Manifest.permission.ACCESS_COARSE_LOCATION)
         permissionsArray.add(Manifest.permission.ACCESS_FINE_LOCATION)
         permissionsArray.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
         requestPermissionsIfNecessary(permissionsArray)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        mainViewModel.getLastLocation()
     }
 
     @Override

@@ -39,8 +39,7 @@ class MapFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_map, container, false)
 
-        mapView = root.findViewById(R.id.map)
-        setUpMap()
+        setUpMap(root)
 
         return root
     }
@@ -71,7 +70,9 @@ class MapFragment : Fragment() {
             val marker = Marker(mapView)
             marker.icon = resources.getDrawable(rink.getTypeMarkerDrawable(), resources.newTheme())
             marker.position = GeoPoint(rink.lat, rink.lng)
-            marker.subDescription = rink.description
+
+            marker.title = rink.name
+            marker.image = resources.getDrawable(rink.getConditionDrawable(), resources.newTheme())
 
             mapView.getOverlays().add(marker)
         }
@@ -79,15 +80,18 @@ class MapFragment : Fragment() {
         mapView.invalidate()
     }
 
-    fun setUpMap() {
+    fun setUpMap(view: View) {
+        mapView = view.findViewById(R.id.map)
+
+        val mapController = mapView.controller
+        mapController.animateTo(GeoPoint(45.52219950438451, -73.62182868026389))
+        mapController.setZoom(14.5)
+
         Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID)
         mapView.setTileSource(TileSourceFactory.MAPNIK)
 
         mapView.zoomController.setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT)
         mapView.setMultiTouchControls(true)
-
-        val mapController = mapView.controller
-        mapController.setZoom(14.5)
 
         var locationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), mapView)
         locationOverlay.enableMyLocation()

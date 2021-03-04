@@ -1,16 +1,22 @@
 package com.jbm.maglace
 
+import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.jbm.maglace.adapter.RinkListAdapter
+import com.jbm.maglace.model.Rink
 import com.jbm.maglace.viewModels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
+import kotlin.Comparator
+import kotlin.math.roundToInt
+
 
 @AndroidEntryPoint
 class RinkListFragment : Fragment() {
@@ -20,10 +26,11 @@ class RinkListFragment : Fragment() {
 
     val rinkListAdapter = RinkListAdapter()
 
+    @Override
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_rink_list, container, false)
 
@@ -36,12 +43,12 @@ class RinkListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainViewModel.liveRinkList.observe(viewLifecycleOwner, Observer {
+        mainViewModel.liveRinkList.observe(viewLifecycleOwner, {
+            Log.d(TAG, "RinkList changed")
+
             rinkListAdapter.submitList(it)
         })
+
+        mainViewModel.getLastLocation()
     }
 }
-
-//// create and bind view to the catalog
-//        binding = FragmentHomeBinding.inflate(LayoutInflater.from(context),
-//            container, false)
