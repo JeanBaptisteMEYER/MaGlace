@@ -3,6 +3,11 @@
     android:height="125dp"
     android:viewportWidth="100"
     android:viewportHeight="125">
+
+  <path
+      android:pathData="M-1.455,-1.682h102.727v129.273h-102.727z"
+      android:fillColor="@color/mOrange"/>
+  
   <path
       android:pathData="m55.433,26.483l-17.454,40.729l-27.195,0l-5.439,5.439l6.396,7.723l26.292,-2.008l21.957,-51.884l-4.558,0z"
       android:fillColor="#000000"

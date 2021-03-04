@@ -5,6 +5,7 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.jbm.maglace.model.Rink
 
 @BindingAdapter("imageFromUrl")
 fun bindImageFromUrl(view: ImageView, imageUrl: String?) {
@@ -21,3 +22,4 @@ fun bindImageFromUrl(view: ImageView, imageUrl: String?) {
 fun setImageDrawable(view: ImageView, drawable: Int) {
     view.setImageResource(drawable)
 }
+

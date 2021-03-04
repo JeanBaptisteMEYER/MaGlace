@@ -23,24 +23,51 @@ class Rink {
     @SerializedName ("slug") var slug =  ""
     var distFromUser: Float = 0.toFloat() // in Km
 
-    fun getConditionDrawable(): Int {
-        when (condition) {
-            Constants().CONDITION_EXCELLENTE -> return R.drawable.ic_three_star
-            Constants().CONDITION_BONNE -> return R.drawable.ic_two_star
-            Constants().CONDITION_MAIVAISE -> return R.drawable.ic_one_star
-            else -> return R.drawable.ic_no_star
-        }
-    }
-
-    fun getTypeMarkerDrawable(): Int {
+    //TODO move to databinding
+    fun getListDrawable(): Int {
         when (type) {
-            Constants().TYPE_PSE -> return getTypeMarkerPse()
-            Constants().TYPE_PPL -> return getTypeMarkerPpl()
-            else -> return getTypeMarkerPp()
+            Constants().TYPE_PSE -> return getHockeyDrawable()
+            Constants().TYPE_PPL -> return getSkateDrawable()
+            else -> return getParkDrawable()
         }
     }
 
-    fun getTypeMarkerPse(): Int {
+    fun getHockeyDrawable(): Int {
+        when (condition) {
+            Constants().CONDITION_EXCELLENTE -> return R.drawable.ic_hockey_green
+            Constants().CONDITION_BONNE -> return R.drawable.ic_hockey_orange
+            Constants().CONDITION_MAIVAISE -> return R.drawable.ic_hockey_red
+            else -> return R.drawable.ic_hockey
+        }
+    }
+
+    fun getSkateDrawable(): Int {
+        when (condition) {
+            Constants().CONDITION_EXCELLENTE -> return R.drawable.ic_skate_green
+            Constants().CONDITION_BONNE -> return R.drawable.ic_skate_orange
+            Constants().CONDITION_MAIVAISE -> return R.drawable.ic_skate_red
+            else -> return R.drawable.ic_skate
+        }
+    }
+
+    fun getParkDrawable(): Int {
+        when (condition) {
+            Constants().CONDITION_EXCELLENTE -> return R.drawable.ic_park_green
+            Constants().CONDITION_BONNE -> return R.drawable.ic_park_orange
+            Constants().CONDITION_MAIVAISE -> return R.drawable.ic_park_red
+            else -> return R.drawable.ic_park
+        }
+    }
+
+    fun getMarkerDrawable(): Int {
+        when (type) {
+            Constants().TYPE_PSE -> return getMarkerPse()
+            Constants().TYPE_PPL -> return getMarkerPpl()
+            else -> return getMarkerPp()
+        }
+    }
+
+    fun getMarkerPse(): Int {
         when (condition) {
             Constants().CONDITION_EXCELLENTE -> return R.drawable.ic_hockey_marker_green
             Constants().CONDITION_BONNE -> return R.drawable.ic_hockey_marker_orange
@@ -49,7 +76,7 @@ class Rink {
         }
     }
 
-    fun getTypeMarkerPpl(): Int {
+    fun getMarkerPpl(): Int {
         when (condition) {
             Constants().CONDITION_EXCELLENTE -> return R.drawable.ic_skate_marker_green
             Constants().CONDITION_BONNE -> return R.drawable.ic_skate_marker_orange
@@ -58,7 +85,7 @@ class Rink {
         }
     }
 
-    fun getTypeMarkerPp(): Int {
+    fun getMarkerPp(): Int {
         when (condition) {
             Constants().CONDITION_EXCELLENTE -> return R.drawable.ic_park_marker_green
             Constants().CONDITION_BONNE -> return R.drawable.ic_park_marker_orange
@@ -66,8 +93,6 @@ class Rink {
             else -> return R.drawable.ic_park_marker
         }
     }
-
-
 
     @Override
     override fun toString(): String {

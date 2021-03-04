@@ -1,13 +1,11 @@
 package com.jbm.maglace
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.jbm.maglace.model.Rink
 import com.jbm.maglace.viewModels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,10 +14,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
-import org.osmdroid.views.overlay.ItemizedIconOverlay
-import org.osmdroid.views.overlay.ItemizedOverlayWithFocus
 import org.osmdroid.views.overlay.Marker
-import org.osmdroid.views.overlay.OverlayItem
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
@@ -68,11 +63,11 @@ class MapFragment : Fragment() {
     fun addRinksOverlay(rinks: List<Rink>) {
         for (rink in rinks) {
             val marker = Marker(mapView)
-            marker.icon = resources.getDrawable(rink.getTypeMarkerDrawable(), resources.newTheme())
+            marker.icon = resources.getDrawable(rink.getMarkerDrawable(), resources.newTheme())
             marker.position = GeoPoint(rink.lat, rink.lng)
 
             marker.title = rink.name
-            marker.image = resources.getDrawable(rink.getConditionDrawable(), resources.newTheme())
+            marker.image = resources.getDrawable(rink.getListDrawable(), resources.newTheme())
 
             mapView.getOverlays().add(marker)
         }

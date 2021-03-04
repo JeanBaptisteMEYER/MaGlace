@@ -62,6 +62,7 @@ class MainViewModel @Inject constructor(
         rinkLocation.longitude = rink.lng
         rinkLocation.latitude = rink.lat
 
+        //TODO nullpointerexception if not liveposition before geting data
         var dist = livePostion.value!!.distanceTo(rinkLocation)
         dist = (round(dist/1000 * 100) /100)
 
