@@ -1,6 +1,8 @@
 package com.jbm.maglace.model
 
+import android.graphics.drawable.Drawable
 import com.google.gson.annotations.SerializedName
+import com.jbm.maglace.R
 import com.jbm.maglace.utils.Constants
 
 class Rink {
@@ -21,13 +23,19 @@ class Rink {
     @SerializedName ("lng") var lng =  0.0
     @SerializedName ("slug") var slug =  ""
 
-    fun getConditionCode(): Int {
-
+    fun getConditionDrawable(): Int {
         when (condition) {
-            Constants().CONDITION_EXCELLENTE -> return 3
-            Constants().CONDITION_BONNE -> return 2
-            Constants().CONDITION_MAIVAISE -> return 1
-            else -> return 0
+            Constants().CONDITION_EXCELLENTE -> return R.drawable.ic_three_star
+            Constants().CONDITION_BONNE -> return R.drawable.ic_two_star
+            Constants().CONDITION_MAIVAISE -> return R.drawable.ic_one_star
+            else -> return R.drawable.ic_no_star
+        }
+    }
+
+    fun getTypeMarkerDrawable(): Int {
+        when (type) {
+            Constants().TYPE_PSE -> return R.drawable.ic_hockey_map_marker
+            else -> return R.drawable.ic_skate_map_marker
         }
     }
 
@@ -36,22 +44,3 @@ class Rink {
         return "ID = " + id + ", name = " + name + ", state = " + condition
     }
 }
-
-/*
-        "id": 544,
-        "nom": "Patinoire avec bandes, René-Patenaude (PSE)",
-        "description": "Patinoire avec bandes",
-        "genre": "PSE",
-        "ouvert": false,
-        "deblaye": null,
-        "arrose": null,
-        "resurface": null,
-        "condition": "N/A",
-        "parc": "René-Patenaude",
-        "adresse": "80, rue Ouimet Est",
-        "tel": null,
-        "ext": null,
-        "lat": 45.5738806049,
-        "lng": -73.6913233561,
-        "slug": "rene-patenaude"
- */

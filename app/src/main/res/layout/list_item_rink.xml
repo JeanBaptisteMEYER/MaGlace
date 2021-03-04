@@ -17,37 +17,7 @@
         android:layout_height="wrap_content"
         android:foreground="?attr/selectableItemBackgroundBorderless">
 
-        <View
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="8dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/ic_three_star"
-            android:visibility="@{rink.getConditionCode() == 3 ? View.VISIBLE : View.GONE}"/>
-
-        <View
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="8dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/ic_two_star"
-            android:visibility="@{rink.getConditionCode() == 2 ? View.VISIBLE : View.GONE}"/>
-
-        <View
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="8dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/ic_one_star"
-            android:visibility="@{rink.getConditionCode() == 1 ? View.VISIBLE : View.GONE}"/>
-
-        <View
+        <ImageView
             android:id="@+id/item_rink_condition"
             android:layout_width="32dp"
             android:layout_height="32dp"
@@ -55,8 +25,7 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/ic_no_star"
-            android:visibility="@{rink.getConditionCode() == 0 ? View.VISIBLE : View.INVISIBLE}"/>
+            android:src="@{rink.conditionDrawable}"/>
 
         <TextView
             android:id="@+id/item_rink_name"
@@ -68,7 +37,7 @@
             android:textSize="16dp"
             android:textColor="@color/black"
             android:layout_margin="4dp"
-            android:text='@{@string/patinoire_du_parc + " " + rink.park}'/>
+            android:text='@{@string/parc + " " + rink.park}'/>
 
         <LinearLayout
             android:id="@+id/item_rink_service"

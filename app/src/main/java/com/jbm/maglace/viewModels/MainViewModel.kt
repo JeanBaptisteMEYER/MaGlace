@@ -2,6 +2,7 @@ package com.jbm.maglace.viewModels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.location.LocationServices
 import com.jbm.maglace.model.MyRepository
 import com.jbm.maglace.model.Rink
 import dagger.hilt.android.lifecycle.HiltViewModel

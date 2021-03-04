@@ -7,4 +7,7 @@ class Constants {
     val CONDITION_EXCELLENTE = "Excellente"
     val CONDITION_INCONNUE = "Inconnue"
     val LOCATION_REQUEST_PERMISSIONS_CODE = 68
+    val TYPE_PSE = "PSE"
+    val TYPE_PP = "PP"
+    val TYPE_PPL = "PPL"
 }

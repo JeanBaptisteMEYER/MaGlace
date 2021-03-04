@@ -45,8 +45,12 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
-    // Location
+    // Location and Map
     implementation "com.google.android.gms:play-services-location:$locationVersion"
+    implementation "org.osmdroid:osmdroid-android:$osmVersion"
+    implementation "org.osmdroid:osmdroid-wms:$osmVersion"
+    implementation "org.osmdroid:osmdroid-mapsforge:$osmVersion"
+    implementation "com.github.MKergall:osmbonuspack:$osmbonusVersion"
 
     // UI Libs
     implementation "com.google.android.material:material:$materialVersion"

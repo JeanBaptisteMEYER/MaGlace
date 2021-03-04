@@ -13,11 +13,14 @@ buildscript {
     ext.okhttpVersion = "4.9.0"
     ext.constraintVersion = "2.0.4"
     ext.locationVersion = "18.0.0"
+    ext.osmVersion = "6.1.10"
+    ext.osmbonusVersion = "6.6.0"
 
 
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.2"
@@ -34,6 +37,8 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
     }
 }
 
