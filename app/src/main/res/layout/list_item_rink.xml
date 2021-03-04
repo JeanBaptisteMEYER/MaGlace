@@ -7,6 +7,9 @@
         <variable
             name="rink"
             type="com.jbm.maglace.data.Rink" />
+
+        <import type="android.graphics.Color"/>
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,14 +17,107 @@
         android:layout_height="wrap_content"
         android:foreground="?attr/selectableItemBackgroundBorderless">
 
+        <View
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/ic_three_star"
+            android:visibility="@{rink.getConditionCode() == 3 ? View.VISIBLE : View.GONE}"/>
+
+        <View
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/ic_two_star"
+            android:visibility="@{rink.getConditionCode() == 2 ? View.VISIBLE : View.GONE}"/>
+
+        <View
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/ic_one_star"
+            android:visibility="@{rink.getConditionCode() == 1 ? View.VISIBLE : View.GONE}"/>
+
+        <View
+            android:id="@+id/item_rink_condition"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/ic_no_star"
+            android:visibility="@{rink.getConditionCode() == 0 ? View.VISIBLE : View.INVISIBLE}"/>
+
         <TextView
             android:id="@+id/item_rink_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/item_rink_condition"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:gravity="start"
             android:textSize="16dp"
-            android:text='@{rink.nom}'/>
+            android:textColor="@color/black"
+            android:layout_margin="4dp"
+            android:text='@{@string/patinoire_du_parc + " " + rink.park}'/>
+
+        <LinearLayout
+            android:id="@+id/item_rink_service"
+            android:layout_margin="4dp"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/item_rink_condition"
+            app:layout_constraintTop_toBottomOf="@id/item_rink_name"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_hockey"
+                android:visibility="@{rink.type == @string/type_pse ? View.VISIBLE : View.GONE}"
+                android:layout_marginEnd="4dp"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_ice_skate"
+                android:visibility="@{rink.type == @string/type_pse ? View.GONE : View.VISIBLE}"
+                android:layout_marginEnd="4dp"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@{rink.clear == true ? @drawable/ic_shovel : @drawable/ic_shovel_gray}"
+                android:layout_marginEnd="4dp"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@{rink.watered == true ? @drawable/ic_watered : @drawable/ic_watered_gray}"
+                android:layout_marginEnd="4dp"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@{rink.resurface == true ? @drawable/ic_resurfacer : @drawable/ic_resurfacer_gray}"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="distance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

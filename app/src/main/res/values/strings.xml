@@ -2,4 +2,12 @@
     <string name="app_name">Ma Glace</string>
     <string name="title_map">Map</string>
     <string name="title_list">List</string>
+    <string name="condition_bonne">Bonne</string>
+    <string name="condition_mauvaise">Mauvaise</string>
+    <string name="condition_excellente">Excellente</string>
+    <string name="condition_inconnue">Inconnue</string>
+    <string name="type_pse">PSE</string>
+    <string name="type_pp">PP</string>
+    <string name="type_ppl">PPL</string>
+    <string name="patinoire_du_parc">Patinoire du parc</string>
 </resources>

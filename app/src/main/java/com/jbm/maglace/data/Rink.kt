@@ -1,28 +1,40 @@
 package com.jbm.maglace.data
 
+import android.graphics.Color
 import com.google.gson.annotations.SerializedName
+import com.jbm.maglace.utils.Constants
 
 class Rink {
     @SerializedName ("id") var id = 0
-    @SerializedName ("nom") var nom = ""
+    @SerializedName ("nom") var name = ""
     @SerializedName ("description") var description =  ""
-    @SerializedName ("genre") var genre =  ""
-    @SerializedName ("ouvert") var ouvert =  false
-    @SerializedName ("deblaye") var deblaye =  false
-    @SerializedName ("arrose") var arrose =  false
+    @SerializedName ("genre") var type =  ""
+    @SerializedName ("ouvert") var open =  false
+    @SerializedName ("deblaye") var clear =  false
+    @SerializedName ("arrose") var watered =  false
     @SerializedName ("resurface") var resurface =  false
     @SerializedName ("condition") var condition =  ""
-    @SerializedName ("parc") var parc =  ""
-    @SerializedName ("adresse") var adresse =  ""
+    @SerializedName ("parc") var park =  ""
+    @SerializedName ("adresse") var address =  ""
     @SerializedName ("tel") var tel = ""
     @SerializedName ("ext") var ext =  ""
     @SerializedName ("lat") var lat =  0.0
     @SerializedName ("lng") var lng =  0.0
     @SerializedName ("slug") var slug =  ""
 
+    fun getConditionCode(): Int {
+
+        when (condition) {
+            Constants().CONDITION_EXCELLENTE -> return 3
+            Constants().CONDITION_BONNE -> return 2
+            Constants().CONDITION_MAIVAISE -> return 1
+            else -> return 0
+        }
+    }
+
     @Override
     override fun toString(): String {
-        return "ID = " + id + ", name = " + nom + ", state = " + condition
+        return "ID = " + id + ", name = " + name + ", state = " + condition
     }
 }
 
