@@ -84,14 +84,14 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_hockey"
-                android:visibility="@{rink.type == @string/type_pse ? View.VISIBLE : View.GONE}"
+                android:visibility="@{rink.type.equals(@string/type_pse) ? View.VISIBLE : View.GONE}"
                 android:layout_marginEnd="4dp"/>
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_ice_skate"
-                android:visibility="@{rink.type == @string/type_pse ? View.GONE : View.VISIBLE}"
+                android:visibility="@{rink.type.equals(@string/type_pse) ? View.GONE : View.VISIBLE}"
                 android:layout_marginEnd="4dp"/>
 
             <ImageView
