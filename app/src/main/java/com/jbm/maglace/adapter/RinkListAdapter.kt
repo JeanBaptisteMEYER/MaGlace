@@ -6,8 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import androidx.recyclerview.widget.RecyclerView.Adapter
-import com.jbm.maglace.data.Rink
+import com.jbm.maglace.model.Rink
 import com.jbm.maglace.databinding.ListItemRinkBinding
 
 class RinkListAdapter: ListAdapter<Rink, RinkListAdapter.RinkListViewHolder>(RinkDiffCallback()) {

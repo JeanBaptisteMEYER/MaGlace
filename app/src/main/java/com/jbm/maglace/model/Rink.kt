@@ -1,6 +1,5 @@
-package com.jbm.maglace.data
+package com.jbm.maglace.model
 
-import android.graphics.Color
 import com.google.gson.annotations.SerializedName
 import com.jbm.maglace.utils.Constants
 

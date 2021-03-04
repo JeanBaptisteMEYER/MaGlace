@@ -6,7 +6,7 @@
     <data>
         <variable
             name="rink"
-            type="com.jbm.maglace.data.Rink" />
+            type="com.jbm.maglace.model.Rink" />
 
         <import type="android.graphics.Color"/>
         <import type="android.view.View"/>

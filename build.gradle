@@ -12,6 +12,7 @@ buildscript {
     ext.gsonVersion = "2.8.6"
     ext.okhttpVersion = "4.9.0"
     ext.constraintVersion = "2.0.4"
+    ext.locationVersion = "18.0.0"
 
 
     repositories {

@@ -1,4 +1,4 @@
-package com.jbm.maglace.data
+package com.jbm.maglace.model
 
 import com.google.gson.annotations.SerializedName
 

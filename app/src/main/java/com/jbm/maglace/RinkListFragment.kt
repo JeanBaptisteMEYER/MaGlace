@@ -1,7 +1,6 @@
 package com.jbm.maglace
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.jbm.maglace.adapter.RinkListAdapter
-import com.jbm.maglace.data.Rink
 import com.jbm.maglace.viewModels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,16 +37,7 @@ class RinkListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mainViewModel.liveRinkList.observe(viewLifecycleOwner, Observer {
-
-            var rinkList = mutableListOf<Rink>()
-
-            for (district in it) {
-                for (rink in district.patinoires) {
-                    rinkList.add(rink)
-                }
-            }
-
-            rinkListAdapter.submitList(rinkList)
+            rinkListAdapter.submitList(it)
         })
     }
 }

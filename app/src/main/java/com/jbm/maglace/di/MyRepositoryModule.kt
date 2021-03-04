@@ -1,6 +1,6 @@
 package com.jbm.maglace.di
 
-import com.jbm.maglace.data.MyRepository
+import com.jbm.maglace.model.MyRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

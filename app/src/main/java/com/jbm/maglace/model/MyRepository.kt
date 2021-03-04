@@ -1,8 +1,7 @@
-package com.jbm.maglace.data
+package com.jbm.maglace.model
 
 import android.util.Log
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.jbm.maglace.utils.Constants
 import okhttp3.*
 import java.io.IOException
