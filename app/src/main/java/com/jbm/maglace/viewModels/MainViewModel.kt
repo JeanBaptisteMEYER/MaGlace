@@ -8,7 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MapViewModel @Inject constructor(private val myRepository: MyRepository): ViewModel() {
+class MainViewModel @Inject constructor(private val myRepository: MyRepository): ViewModel() {
     val TAG: String =  "tag.jbm." + this::class.java.simpleName
 
     var liveRinkList = MutableLiveData<List<District>>()

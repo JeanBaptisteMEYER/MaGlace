@@ -5,19 +5,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.jbm.maglace.viewModels.MapViewModel
+import com.jbm.maglace.viewModels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MapFragment : Fragment() {
     val TAG: String =  "tag.jbm." + this::class.java.simpleName
 
-    private val mapViewModel: MapViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     @Override
     override fun onCreateView(
@@ -33,7 +31,7 @@ class MapFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mapViewModel.liveRinkList.observe(viewLifecycleOwner, {
+        mainViewModel.liveRinkList.observe(viewLifecycleOwner, {
             Log.d(TAG, "Coucou")
         })
     }
