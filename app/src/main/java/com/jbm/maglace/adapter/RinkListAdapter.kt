@@ -2,12 +2,15 @@ package com.jbm.maglace.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.jbm.maglace.model.Rink
 import com.jbm.maglace.databinding.ListItemRinkBinding
+import com.jbm.maglace.ui.RinkListFragmentDirections
 
 class RinkListAdapter: ListAdapter<Rink, RinkListAdapter.RinkListViewHolder>(RinkDiffCallback()) {
     val TAG: String =  "tag.jbm." + this::class.java.simpleName
@@ -27,12 +30,25 @@ class RinkListAdapter: ListAdapter<Rink, RinkListAdapter.RinkListViewHolder>(Rin
 
     class RinkListViewHolder (val rinkItemBinding: ListItemRinkBinding):
         ViewHolder(rinkItemBinding.root) {
+        val TAG: String =  "tag.jbm." + this::class.java.simpleName
+
+        init {
+            rinkItemBinding.setClickListener { view ->
+                rinkItemBinding.rink?.let {
+                    navToRinkDetail(view, it.id)
+                }
+            }
+        }
+
+        fun navToRinkDetail(view: View, rinkId: Int) {
+            val direction = RinkListFragmentDirections.actionRinklistToRinkdetail(rinkId)
+            view.findNavController().navigate(direction)
+        }
 
         fun bind(rink: Rink) {
             rinkItemBinding.rink = rink
             rinkItemBinding.executePendingBindings()
         }
-
     }
 }
 
@@ -47,34 +63,3 @@ private class RinkDiffCallback : DiffUtil.ItemCallback<Rink>() {
         return oldItem == newItem
     }
 }
-
-
-/*
-class CatalogAdapter (): Adapter <CatalogAdapter.HomeViewHolder>() {
-
-    override fun getItemCount(): Int {
-        return catalog.products.size
-    }
-
-    class HomeViewHolder(val catalogItemBinding: ListItemCatalogBinding):
-            RecyclerView.ViewHolder(catalogItemBinding.root) {
-        init {
-            catalogItemBinding.setClickListener { view ->
-                catalogItemBinding.product?.let {
-                    navToDetail(view, it.id)
-                }
-            }
-        }
-
-        fun navToDetail(view: View, productId: Int) {
-            val direction = HomeFragmentDirections.actionShowDetailfragment(productId)
-            view.findNavController().navigate(direction)
-        }
-
-        fun bind(product: Product) {
-            catalogItemBinding.product = product
-            catalogItemBinding.executePendingBindings()
-        }
-    }
-}
- */

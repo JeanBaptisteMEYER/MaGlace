@@ -10,4 +10,5 @@ class Constants {
     val TYPE_PSE = "PSE"
     val TYPE_PP = "PP"
     val TYPE_PPL = "PPL"
+    val EMPTY_LOCATION = "EmptyLocation"
 }

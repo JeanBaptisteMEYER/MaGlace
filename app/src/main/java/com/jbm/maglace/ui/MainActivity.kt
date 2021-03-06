@@ -1,4 +1,4 @@
-package com.jbm.maglace
+package com.jbm.maglace.ui
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -9,13 +9,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.gms.location.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.jbm.maglace.R
 import com.jbm.maglace.utils.Constants
-import com.jbm.maglace.viewModels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -41,13 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         requestPermissionsIfNecessary(permissionsArray)
     }
-
-    override fun onStart() {
-        super.onStart()
-
-        mainViewModel.getLastLocation()
-    }
-
+    //TODO test osm location without permission
     @Override
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -60,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == Constants().LOCATION_REQUEST_PERMISSIONS_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                mainViewModel.getLastLocation()
+                //TODO nothing to do for the moment. Location is handle by osm. But might problematic if no permisson
             else
                 Toast.makeText(this, "Please, set location manually in settings", Toast.LENGTH_LONG)
                     .show()

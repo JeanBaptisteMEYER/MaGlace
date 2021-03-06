@@ -1,6 +1,5 @@
-package com.jbm.maglace
+package com.jbm.maglace.ui
 
-import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,13 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
+import com.jbm.maglace.R
 import com.jbm.maglace.adapter.RinkListAdapter
-import com.jbm.maglace.model.Rink
-import com.jbm.maglace.viewModels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
-import kotlin.Comparator
-import kotlin.math.roundToInt
 
 
 @AndroidEntryPoint
@@ -48,7 +43,5 @@ class RinkListFragment : Fragment() {
 
             rinkListAdapter.submitList(it)
         })
-
-        mainViewModel.getLastLocation()
     }
 }

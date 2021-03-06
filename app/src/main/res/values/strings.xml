@@ -11,4 +11,9 @@
     <string name="type_ppl">PPL</string>
     <string name="patinoire_du_parc">Patinoire du parc</string>
     <string name="parc">Parc</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="rink_list">Rink List</string>
+    <string name="center_map_description">Center Map</string>
+    <string name="filter_description">Filters</string>
 </resources>
