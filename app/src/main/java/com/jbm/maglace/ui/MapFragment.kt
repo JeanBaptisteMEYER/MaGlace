@@ -93,7 +93,7 @@ class MapFragment : Fragment() {
             binding.setClickListener { view -> marker.closeInfoWindow() }
 
             // Create info widows from binding.root
-            var rinkInfoWindow = RinkInfoWindow(binding.root, mapView, rink)
+            marker.infoWindow = RinkInfoWindow(binding.root, mapView, rink)
 
             // show/hide marker on marker click
             marker.setOnMarkerClickListener { marker, mapView ->
