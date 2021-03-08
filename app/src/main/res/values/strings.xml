@@ -16,4 +16,5 @@
     <string name="rink_list">Rink List</string>
     <string name="center_map_description">Center Map</string>
     <string name="filter_description">Filters</string>
+    <string name="refresh">Refresh Rinks</string>
 </resources>

@@ -11,4 +11,8 @@ class Constants {
     val TYPE_PP = "PP"
     val TYPE_PPL = "PPL"
     val EMPTY_LOCATION = "EmptyLocation"
+    val FILTER_ALL = "filter_all"
+    val FILTER_HOCKEY = "filter_hockey"
+    val FILTER_SKATE = "filter_skate"
+    val FILTER_PARK = "filter_park"
 }

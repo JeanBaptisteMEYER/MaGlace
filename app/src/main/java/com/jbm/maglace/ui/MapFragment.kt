@@ -15,18 +15,23 @@ import com.jbm.maglace.R
 import com.jbm.maglace.adapter.RinkInfoWindow
 import com.jbm.maglace.databinding.ListItemRinkBinding
 import com.jbm.maglace.model.Rink
+import com.jbm.maglace.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.Overlay
 import org.osmdroid.views.overlay.infowindow.InfoWindow
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
+import javax.annotation.meta.When
 
 @AndroidEntryPoint
 class MapFragment : Fragment() {
@@ -45,7 +50,9 @@ class MapFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_map, container, false)
 
-        initUi(root)
+        initMap(root)
+        addLocationOverlay()
+        initFloatingButton(root)
 
         return root
     }
@@ -56,6 +63,10 @@ class MapFragment : Fragment() {
 
         mainViewModel.liveRinkList.observe(viewLifecycleOwner, {
             addRinksOverlay(it)
+        })
+
+        mainViewModel.liveFilter.observe(viewLifecycleOwner, {
+            filterMarker(it)
         })
     }
 
@@ -71,11 +82,97 @@ class MapFragment : Fragment() {
         mapView.onPause()
     }
 
-    /**
-     * add all rinks marker to the map
-     */
-    fun addRinksOverlay(rinks: List<Rink>) {
+    fun initMap(view: View) {
+        //setup Map
+        mapView = view.findViewById(R.id.map)
 
+        val mapController = mapView.controller
+        // default position and zoom
+        mapController.setCenter(GeoPoint(45.52219950438451, -73.62182868026389))
+        mapController.setZoom(12.0)
+
+        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID)
+        mapView.setTileSource(TileSourceFactory.MAPNIK)
+
+        mapView.zoomController.setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT)
+        mapView.setMultiTouchControls(true)
+    }
+
+    fun addLocationOverlay() {
+        // enable my location overlay
+        var locationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), mapView)
+        locationOverlay.enableMyLocation()
+
+        // when getting the first location fix from osm, updateViewModel with location
+        locationOverlay.runOnFirstFix {
+            mainViewModel.setFirstLocation(locationOverlay.lastFix)
+            centerZoomOnUser(locationOverlay.lastFix)
+        }
+        mapView.overlays.add(locationOverlay)
+    }
+
+    fun initFloatingButton(view: View) {
+        //set up button
+        view.findViewById<FloatingActionButton>(R.id.centerMapButton).setOnClickListener {
+            if (mainViewModel.myRepository.isLocationInitialize())
+                centerZoomOnUser(mainViewModel.myRepository.lastLocation)
+        }
+
+        // increment filter type at every click ShowAll -> Hockey -> skate -> park
+        // change button image depending on filter
+        val filterButton: FloatingActionButton = view.findViewById(R.id.filterButton)
+        filterButton.setOnClickListener {
+            mainViewModel.liveFilter.value?.let {
+                when(it) {
+                    Constants().FILTER_ALL -> {
+                        mainViewModel.liveFilter.postValue(Constants().FILTER_HOCKEY)
+                        filterButton.setImageDrawable(resources.getDrawable(R.drawable.ic_hockey, resources.newTheme()))
+                    }
+                    Constants().FILTER_HOCKEY -> {
+                        mainViewModel.liveFilter.postValue(Constants().FILTER_SKATE)
+                        filterButton.setImageDrawable(resources.getDrawable(R.drawable.ic_skate, resources.newTheme()))
+                    }
+                    Constants().FILTER_SKATE -> {
+                        mainViewModel.liveFilter.postValue(Constants().FILTER_PARK)
+                        filterButton.setImageDrawable(resources.getDrawable(R.drawable.ic_park, resources.newTheme()))
+                    }
+                    else -> {
+                        mainViewModel.liveFilter.postValue(Constants().FILTER_ALL)
+                        filterButton.setImageDrawable(resources.getDrawable(R.drawable.ic_filter, resources.newTheme()))
+                    }
+                }
+            }
+        }
+
+        // when clicked, update the rinks data from web
+        view.findViewById<FloatingActionButton>(R.id.refreshButton).setOnClickListener {
+            clearAllMarker()
+            mainViewModel.updateRinkListData()
+        }
+    }
+
+    // remove all marker from map. MyPositionOverlay is kept on the map
+    fun clearAllMarker(){
+        for(overlay in mapView.overlays) {
+            if (overlay.toString().contains("Marker")) {
+                mapView.overlays.remove(overlay)
+            }
+        }
+
+        mapView.postInvalidate()
+    }
+
+     // add the the map the given rinks as markers
+    // TODO the function prepare marker block the UI thread for too long. Move to new thr.
+    fun addRinksOverlay(rinks: List<Rink>) {
+        var markers =  arrayListOf<Marker>()
+        markers = prepareMarkerList(rinks)
+
+        mapView.getOverlays().addAll(markers)
+        mapView.postInvalidate()
+    }
+
+    fun prepareMarkerList(rinks: List<Rink>): ArrayList<Marker> {
         var markers = arrayListOf<Marker>()
         val parent = mapView.parent as ViewGroup
         val mapContext: Context = mapView.context
@@ -83,6 +180,9 @@ class MapFragment : Fragment() {
         for (rink in rinks) {
             // new mark with position and icon
             val marker = Marker(mapView)
+
+            //set type as title. It will be use later for filtering
+            marker.title = rink.type
             marker.icon = resources.getDrawable(rink.getMarkerDrawable(), resources.newTheme())
             marker.position = GeoPoint(rink.lat, rink.lng)
 
@@ -112,41 +212,24 @@ class MapFragment : Fragment() {
             markers.add(marker)
         }
 
-        // add overlayto map
-        mapView.getOverlays().addAll(markers)
-        mapView.invalidate()
+        return markers
     }
 
-    fun initUi(view: View) {
-        //setup Map
-        mapView = view.findViewById(R.id.map)
+    fun filterMarker (filter: String) {
+        for (overlay in mapView.overlays) {
+            if (overlay.toString().contains("Marker")) {
+                when(filter) {
+                    Constants().FILTER_ALL -> overlay.setEnabled(true)
 
-        val mapController = mapView.controller
-        // default position and zoom
-        mapController.setCenter(GeoPoint(45.52219950438451, -73.62182868026389))
-        mapController.setZoom(12.0)
+                    Constants().FILTER_HOCKEY ->
+                        overlay.setEnabled((overlay as Marker).title.equals(Constants().TYPE_PSE))
 
-        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID)
-        mapView.setTileSource(TileSourceFactory.MAPNIK)
+                    Constants().FILTER_SKATE ->
+                        overlay.setEnabled((overlay as Marker).title.equals(Constants().TYPE_PPL))
 
-        mapView.zoomController.setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT)
-        mapView.setMultiTouchControls(true)
-
-        // enable my location overlay
-        var locationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), mapView)
-        locationOverlay.enableMyLocation()
-        locationOverlay.enableFollowLocation()
-
-        // when getting the first location fix from osm, updateViewModel with location
-        locationOverlay.runOnFirstFix {
-            mainViewModel.setFirstLocation(locationOverlay.lastFix)
-            centerZoomOnUser(locationOverlay.lastFix)
-        }
-        mapView.overlays.add(locationOverlay)
-
-        //set up button
-        view.findViewById<FloatingActionButton>(R.id.centerMapButton).setOnClickListener {
-            centerZoomOnUser(mainViewModel.myRepository.lastLocation)
+                    else -> overlay.setEnabled((overlay as Marker).title.equals(Constants().TYPE_PP))
+                }
+            }
         }
     }
 

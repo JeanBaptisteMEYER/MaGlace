@@ -1,14 +1,27 @@
 package com.jbm.maglace.ui
 
+import android.content.Context
 import android.location.Location
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.jbm.maglace.adapter.RinkInfoWindow
+import com.jbm.maglace.databinding.ListItemRinkBinding
 import com.jbm.maglace.model.MyRepository
 import com.jbm.maglace.model.Rink
+import com.jbm.maglace.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.Overlay
+import org.osmdroid.views.overlay.infowindow.InfoWindow
 import javax.inject.Inject
 import kotlin.math.round
 
@@ -20,8 +33,13 @@ class MainViewModel @Inject constructor(
 
     var liveRinkList = MutableLiveData<MutableList<Rink>>()
     var liveRink = MutableLiveData<Rink>()
+    var liveFilter = MutableLiveData(Constants().FILTER_ALL)
 
     init {
+        updateRinkListData()
+    }
+
+    fun updateRinkListData() {
         myRepository.getRinksFromURL {
             var rinkList = mutableListOf<Rink>()
 

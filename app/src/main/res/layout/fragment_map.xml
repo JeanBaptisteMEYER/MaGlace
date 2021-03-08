@@ -14,11 +14,22 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/centerMapButton"
+        app:layout_constraintBottom_toTopOf="@+id/refreshButton"
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/filterButton"
         android:src="@drawable/ic_filter"
         android:contentDescription="@string/filter_description"
+        android:cropToPadding="true"
+        android:layout_margin="8dp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/centerMapButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/refreshButton"
+        android:src="@drawable/ic_refresh"
+        android:contentDescription="@string/refresh"
         android:cropToPadding="true"
         android:layout_margin="8dp"/>
 
